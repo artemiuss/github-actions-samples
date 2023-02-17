@@ -8,4 +8,4 @@ namespace: hello-gitops
 images:
 - name: hello-gitops
   newName: artemiuss/hello-gitops
-  newTag: cef3a8fdc30b46cac5f048f0fe5da7849465f91c
+  newTag: a5f5862dba8ddfe2f27330c324f98de4ae549b3c
