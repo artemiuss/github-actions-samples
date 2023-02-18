@@ -137,8 +137,8 @@ jobs:
 
     - name: Deploy updated Kubernetes resources
       run: |
-        kubectl apply -k k8s/ 
-		
+        kubectl apply -k k8s/
+
     #- name: Test if the deployment was successful
     #  run: |
     #    ???
