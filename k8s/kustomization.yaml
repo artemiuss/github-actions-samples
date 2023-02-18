@@ -8,4 +8,4 @@ namespace: python-app-blue
 images:
 - name: hello-gitops
   newName: artemiuss/hello-gitops
-  newTag: d1f3f5974eb704ff69e5357c1d7d83ca13a08320
+  newTag: 8fe08027e91ca7662163f4e60c65176269369cc0
