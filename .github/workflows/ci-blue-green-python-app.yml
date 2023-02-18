@@ -127,11 +127,32 @@ jobs:
             exit 1
          fi
 
+    - name: Update Kubernetes resources
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      run: |
+       cd k8s
+       kustomize edit set image hello-gitops=$DOCKER_USERNAME/hello-gitops:$GITHUB_SHA
+       cat kustomization.yaml
 
+    - name: Deploy updated Kubernetes resources
+      run: |
+        kubectl apply -k k8s/ 
+		
+    #- name: Test if the deployment was successful
+    #  run: |
+    #    ???
 
+    - name: Wait for the version to be running
+      run: kubectl rollout status deploy hello-gitops -w
 
-
-
+    - name: Remove old namespace
+      run: |
+        namespacePresentOld=`kubectl get ns | grep ${{ env.OLD_NAMESPACE }} | wc -l`
+        if [ $namespacePresentOld -eq 1 ]
+        then
+          kubectl delete ns ${{ env.OLD_NAMESPACE }} --wait=true
+        fi
  
     - name: Commit files
       run: |
