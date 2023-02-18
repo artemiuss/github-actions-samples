@@ -139,14 +139,15 @@ jobs:
       run: |
         kubectl apply -k k8s/
 
-    #- name: Test if the deployment was successful
-    #  run: |
-    #    ???
-
     - name: Wait for the version to be running
       run: |
         kubectl config set-context --current --namespace ${{ env.NEW_NAMESPACE }} 
         kubectl rollout status deploy hello-gitops -w
+
+    - name: Test if the deployment was successful
+      run: |
+        SERVICE_IP=$(kubectl get ingress hello-gitops -o json | jq .status.loadBalancer.ingress[].ip)
+        while(true); do curl "http://${SERVICE_IP}"; echo; sleep 2; done
 
     - name: Remove old namespace
       run: |
