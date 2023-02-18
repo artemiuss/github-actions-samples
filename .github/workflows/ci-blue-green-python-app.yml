@@ -146,9 +146,8 @@ jobs:
 
     - name: Test if the deployment was successful
       run: |
-        SERVICE_IP=$(kubectl get ingress hello-gitops -o json | jq .status.loadBalancer.ingress[].ip)
-        while(true); do curl "http://${SERVICE_IP}"; echo; sleep 2; done
-
+        SERVICE_IP=$(kubectl get ingress hello-gitops -o json | jq -r .status.loadBalancer.ingress[].ip)
+        until curl "http://${SERVICE_IP}"; do sleep 2; done
     - name: Remove old namespace
       run: |
         namespacePresentOld=`kubectl get ns | grep ${{ env.OLD_NAMESPACE }} | wc -l`
