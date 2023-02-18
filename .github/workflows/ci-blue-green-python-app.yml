@@ -113,7 +113,7 @@ jobs:
             kubectl create ns python-app-blue
             cd k8s
             kustomize edit set namespace python-app-blue
-            kubens python-app-blue
+            kubectl config set-context --current --namespace=python-app-blue
             echo "NEW_NAMESPACE=python-app-blue" >> $GITHUB_ENV
             echo "OLD_NAMESPACE=python-app-green" >> $GITHUB_ENV
          elif [ $namespacePresentGreen -eq 0 ]
@@ -121,7 +121,7 @@ jobs:
             kubectl create ns python-app-green
             cd k8s
             kustomize edit set namespace python-app-green
-            kubens python-app-green
+            kubectl config set-context --current --namespace=python-app-green
             echo "NEW_NAMESPACE=python-app-green" >> $GITHUB_ENV
             echo "OLD_NAMESPACE=python-app-blue" >> $GITHUB_ENV
          else
